@@ -121,13 +121,30 @@ const getRandomInt = (max) => {
 }
 
 const displayEmptyUnderscore = () => {
-    for (let i = 0; i < guessingWord.length; i++){
-        if(guessingWord.charAt(i) !== " "){
-            $(".underscore-display > .row").append("<div class='col underscore'>letter</div>");
+        const maxLineLength = 12;
+        if(guessingWord.length > maxLineLength) {
+            let spliceIndex = guessingWord.lastIndexOf(" ", maxLineLength);
+            let lineOneWord = guessingWord.slice(0, spliceIndex);
+            let lineTwoWord = guessingWord.slice(spliceIndex + 1);
+            
+
+            insertEmptyUnderscore(lineOneWord, "one");
+            insertEmptyUnderscore(lineTwoWord, "two");
         } else {
-            $(".underscore-display > .row").append("<div class='col space'>space</div>");
+            insertEmptyUnderscore(guessingWord);
+        }
+}
+
+function insertEmptyUnderscore(str, line){
+    $(".underscore-display").append("<div id=" + line + " class='row justify-content-center text-center'></div>")
+    for (let i = 0; i < str.length; i++){
+        if(str.charAt(i) !== " "){
+            $(".underscore-display > #" + line).append("<div class='col underscore'>" + str.charAt(i) + "</div>");
+        } else {
+            $(".underscore-display > #" + line).append("<div class='col space'>space</div>");
         }
     }
+    
 }
 
 $(document).ready( function() {
