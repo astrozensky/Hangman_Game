@@ -101,7 +101,24 @@ const wordList = [
     }
 ];
 
-const category = "";
+let category = "",
+    guessingWord = "",
+    hint = "";
+
+const randomWordSelector = (categoryName) => {
+    wordList.forEach( (el) => {
+        if (el.title === categoryName) {
+            index = getRandomInt(el.words.length);
+            word = el.words[index].name;
+            hint = el.words[index].hint;
+        }
+    }); 
+    return word;
+}
+
+const getRandomInt = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 $(document).ready( function() {
     // Add event listeners here
@@ -113,7 +130,9 @@ $(document).ready( function() {
 
     // Categories Button
     $(".categories > div > button").click(function() {
-        alert("works");
+        category = $(this).text();
+        guessingWord = randomWordSelector(category);
+        console.log(guessingWord + "Hint " + hint);
     });
 });
 
