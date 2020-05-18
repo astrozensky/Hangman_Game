@@ -120,6 +120,16 @@ const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+const displayEmptyUnderscore = () => {
+    for (let i = 0; i < guessingWord.length; i++){
+        if(guessingWord.charAt(i) !== " "){
+            $(".underscore-display > .row").append("<div class='col underscore'>letter</div>");
+        } else {
+            $(".underscore-display > .row").append("<div class='col space'>space</div>");
+        }
+    }
+}
+
 $(document).ready( function() {
     // Add event listeners here
     
@@ -132,7 +142,8 @@ $(document).ready( function() {
     $(".categories > div > button").click(function() {
         category = $(this).text();
         guessingWord = randomWordSelector(category);
-        console.log(guessingWord + "Hint " + hint);
+        displayEmptyUnderscore();
+        console.log(guessingWord);
     });
 });
 
