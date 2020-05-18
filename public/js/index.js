@@ -123,15 +123,14 @@ const getRandomInt = (max) => {
 const displayEmptyUnderscore = () => {
         const maxLineLength = 12;
         if(guessingWord.length > maxLineLength) {
-            let spliceIndex = guessingWord.lastIndexOf(" ", maxLineLength);
-            let lineOneWord = guessingWord.slice(0, spliceIndex);
-            let lineTwoWord = guessingWord.slice(spliceIndex + 1);
+            let spliceIndex = guessingWord.lastIndexOf(" ", maxLineLength),
+                lineOneWord = guessingWord.slice(0, spliceIndex),
+                lineTwoWord = guessingWord.slice(spliceIndex + 1);
             
-
-            insertEmptyUnderscore(lineOneWord, "one");
-            insertEmptyUnderscore(lineTwoWord, "two");
+            insertEmptyUnderscore(lineOneWord, "line-one");
+            insertEmptyUnderscore(lineTwoWord, "line-two");
         } else {
-            insertEmptyUnderscore(guessingWord);
+            insertEmptyUnderscore(guessingWord, "line-one");
         }
 }
 
@@ -139,12 +138,29 @@ function insertEmptyUnderscore(str, line){
     $(".underscore-display").append("<div id=" + line + " class='row justify-content-center text-center'></div>")
     for (let i = 0; i < str.length; i++){
         if(str.charAt(i) !== " "){
-            $(".underscore-display > #" + line).append("<div class='col underscore'>" + str.charAt(i) + "</div>");
+            $(".underscore-display > #" + line).append("<div data-letter='" + str.charAt(i) + "' class='col underscore'></div>");
         } else {
-            $(".underscore-display > #" + line).append("<div class='col space'>space</div>");
+            $(".underscore-display > #" + line).append("<div data-letter='space' class='col space'></div>");
         }
     }
+}
+
+const isGuessLetterCorrect = (letter) => {
+    const upperCaseWord = guessingWord.toUpperCase();
+    if(upperCaseWord.includes(letter))  return true ;
+    return false;
+}
+
+function displayGuessedLetter(letter) {
+    let display = $(".underscore-display > div > div");
     
+    display.each(function(index, el){
+        if(el.dataset.letter.toUpperCase() === letter) {
+            el.textContent = el.dataset.letter;
+        }
+    });
+    
+
 }
 
 $(document).ready( function() {
@@ -152,7 +168,13 @@ $(document).ready( function() {
     
     // Input Button
     $(".col > button").click(function() {
-        $(this).addClass("guessed-letter")
+        
+        if (isGuessLetterCorrect($(this).text())) {
+            $(this).addClass("guessed-letter");
+            displayGuessedLetter($(this).text());
+        } else {
+            $(this).addClass("guessed-letter")
+        }
     });
 
     // Categories Button
