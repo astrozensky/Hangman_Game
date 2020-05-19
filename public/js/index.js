@@ -127,21 +127,15 @@ function focusSelectedCategory() {
 
     categoryButtons.each(function(){
         if(this.children[0].textContent != category){
-            removedCategoryButtons.push($(this).detach()) 
-        } else {
-            removedCategoryButtons.push($(this));
-        }
+            $(this).hide("fast");
+        } 
     });
     $(".category-header > div > h6").text("Category:");
 }
 
 function resetCategorySelector() {
     $(".category-header > div > h6").text("Pick a Category:");
-
-    removedCategoryButtons.forEach(function(el){
-        $(".categories").append(el);
-    });
-    
+    $(".categories > div").show("fast");
 }
 
 const displayEmptyUnderscore = () => {
