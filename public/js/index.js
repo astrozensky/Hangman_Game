@@ -166,20 +166,29 @@ function endGame() {
     alert("Game Over");
 }
 
+function gameWon() {
+    alert("Game Won");
+}
+
 const isGameWon = () => {
     let display = $(".underscore-display > div > div"),
-        
-        gameWon = false;
+        word    = [];
+
+    const isWordComplete = (currentVal) => {
+        return currentVal != "";
+    }
 
     display.each(function(){
-        if(this.textContent === ""){
-            gameWon = false;
-        } else {
-            gameWon = true;
+        if(this.dataset.letter != "space"){
+            word.push(this.textContent);
         }
     });
+    if(word.every(isWordComplete)){
+        return true;
+    } else {
+        return false;
+    }
 
-    return gameWon;
 }
 
 $(document).ready( function() {
@@ -193,9 +202,7 @@ $(document).ready( function() {
             $(this).addClass("guessed-letter");
             displayGuessedLetter(guessLetter);
             if(isGameWon()) {
-                console.log("Game Won");
-            } else {
-                console.log("keep playing");
+                gameWon();
             }
         } else if (guesses === 1){
             endGame();
