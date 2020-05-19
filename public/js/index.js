@@ -107,6 +107,11 @@ let category = "",
     guesses = 10,
     removedCategoryButtons = [];
 
+const canvas = document.getElementById("hangman-image"),
+      ctx    = canvas.getContext('2d');
+      ctx.strokeStyle = 'black',
+      ctx.lineWidth = 2;
+
 const randomWordSelector = (categoryName) => {
     wordList.forEach( (el) => {
         if (el.title === categoryName) {
@@ -127,7 +132,7 @@ function focusSelectedCategory() {
 
     categoryButtons.each(function(){
         if(this.children[0].textContent != category){
-            $(this).hide("fast");
+            $(this).fadeOut("fast");
         } 
     });
     $(".category-header > div > h6").text("Category:");
@@ -135,7 +140,7 @@ function focusSelectedCategory() {
 
 function resetCategorySelector() {
     $(".category-header > div > h6").text("Pick a Category:");
-    $(".categories > div").show("fast");
+    $(".categories > div").fadeIn("fast");
 }
 
 const displayEmptyUnderscore = () => {
@@ -153,11 +158,11 @@ const displayEmptyUnderscore = () => {
 }
 
 const displayInputArea = () => {
-    $(".input-area").show(400, "swing");
+    $(".input-area").fadeIn(400, "swing");
 }
 
 function insertEmptyUnderscore(str, line){
-    $(".underscore-display").append("<div id=" + line + " class='row justify-content-center text-center'></div>")
+    $(".underscore-display").append("<div id=" + line + " class='row justify-content-center text-center'></div>");
     for (let i = 0; i < str.length; i++){
         if(str.charAt(i) !== " "){
             $(".underscore-display > #" + line).append("<div data-letter='" + str.charAt(i) + "' class='col underscore'></div>");
@@ -229,10 +234,111 @@ const isGameWon = () => {
     }
 }
 
+function drawHangman() {
+    if(guesses === 9){
+        drawBaseGallow();
+    } else if(guesses === 8){
+        drawVerticalGallow();
+    } else if(guesses === 7){
+        drawHorizontalGallow();
+    } else if(guesses === 6){
+        drawNoose();
+    } else if(guesses === 5){
+        drawHead();
+    } else if(guesses === 4){
+        drawBody();
+    } else if(guesses === 3){
+        drawLeg("left");
+    } else if(guesses === 2){
+        drawLeg("right");
+    } else if(guesses === 1){
+        drawArm("left");
+    } else if(guesses === 0){
+        drawArm("right");
+    }
+}
+
+function drawBaseGallow() {
+    // Base of Gallow
+    ctx.beginPath();
+    ctx.moveTo(25, 148);
+    ctx.lineTo(100, 148);
+    ctx.stroke();
+}
+
+function drawVerticalGallow(){
+    // Vertical line
+    ctx.beginPath();
+    ctx.moveTo(50,148);
+    ctx.lineTo(50,2);
+    ctx.stroke();
+
+    // Gallow Angle Brace Bottom
+    ctx.beginPath();
+    ctx.moveTo(75, 148);
+    ctx.lineTo(50, 123);
+    ctx.stroke();
+}
+
+function drawHorizontalGallow() {
+    // Gallow Horizontal
+    ctx.beginPath();
+    ctx.moveTo(50,2);
+    ctx.lineTo(150,2);
+    ctx.stroke();
+    // Gallow Angle Brace Top
+    ctx.beginPath();
+    ctx.moveTo(75, 2);
+    ctx.lineTo(50, 27);
+    ctx.stroke();
+}
+
+function drawNoose() {
+    ctx.beginPath();
+    ctx.moveTo(150,2);
+    ctx.lineTo(150, 30);
+    ctx.stroke();
+}
+
+function drawHead() {
+    ctx.beginPath();
+    ctx.arc(150, 40, 10, 0, Math.PI * 2);
+    ctx.stroke();
+}
+
+function drawBody() {
+    ctx.beginPath();
+    ctx.moveTo(150, 50);
+    ctx.lineTo(150, 80);
+    ctx.stroke();
+}
+
+function drawLeg(side) {
+    if(side === "left") {
+        x = 135;
+    } else if(side === "right"){
+        x = 165;
+    }
+    ctx.beginPath();
+    ctx.moveTo(150, 80);
+    ctx.lineTo(x,95);
+    ctx.stroke();
+}
+
+function drawArm(side) {
+    if(side === "left") {
+        x = 135;
+    } else if(side === "right"){
+        x = 165;
+    }
+    ctx.beginPath();
+    ctx.moveTo(150, 55);
+    ctx.lineTo(x,70);
+    ctx.stroke();
+}
 
 $(document).ready( function() {
     // Add event listeners here
-    
     // Input Button
     $(".col > button").click(function() {
         let guessLetter = $(this).text();
@@ -244,9 +350,12 @@ $(document).ready( function() {
                 gameWon();
             }
         } else if (guesses === 1){
+            guesses--;
+            drawHangman();
             endGame();
         } else {
             guesses--; 
+            drawHangman();
             $(this).addClass("guessed-letter")
         }
     });
