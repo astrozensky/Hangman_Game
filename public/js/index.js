@@ -170,6 +170,22 @@ function gameWon() {
     alert("Game Won");
 }
 
+function resetGame() {
+    let inputButtons = $(".input-area > div > div > button");
+
+    category = "",
+    guessingWord = "",
+    hint = "",
+    guesses = 10;
+
+    $(".underscore-display").empty();
+    $(".hint-display").remove();
+    
+    inputButtons.each( function() {
+        $(this).removeClass("guessed-letter");
+    });
+}
+
 const isGameWon = () => {
     let display = $(".underscore-display > div > div"),
         word    = [];
@@ -188,8 +204,8 @@ const isGameWon = () => {
     } else {
         return false;
     }
-
 }
+
 
 $(document).ready( function() {
     // Add event listeners here
@@ -222,7 +238,12 @@ $(document).ready( function() {
 
     // Hint Button
     $("#hint").click(function(){
-        $(".input-area").before("<div class='row justify-content-center text-center'><div class='col'>Hint: " + hint + "</div>");
+        $(".input-area").before("<div class='row justify-content-center text-center hint-display'><div class='col'>Hint: " + hint + "</div>");
+    });
+
+    // Play Again Button
+    $("#play-again").click(function(){
+        resetGame();
     });
 });
 
