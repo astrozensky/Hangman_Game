@@ -103,7 +103,8 @@ const wordList = [
 
 let category = "",
     guessingWord = "",
-    hint = "";
+    hint = "",
+    guesses = 10;
 
 const randomWordSelector = (categoryName) => {
     wordList.forEach( (el) => {
@@ -154,13 +155,31 @@ const isGuessLetterCorrect = (letter) => {
 function displayGuessedLetter(letter) {
     let display = $(".underscore-display > div > div");
     
-    display.each(function(index, el){
-        if(el.dataset.letter.toUpperCase() === letter) {
-            el.textContent = el.dataset.letter;
+    display.each(function(){
+        if(this.dataset.letter.toUpperCase() === letter) {
+            this.textContent = this.dataset.letter;
         }
     });
-    
+}
 
+function endGame() {
+    alert("Game Over");
+}
+
+const isGameWon = () => {
+    let display = $(".underscore-display > div > div"),
+        
+        gameWon = false;
+
+    display.each(function(){
+        if(this.textContent === ""){
+            gameWon = false;
+        } else {
+            gameWon = true;
+        }
+    });
+
+    return gameWon;
 }
 
 $(document).ready( function() {
@@ -168,11 +187,20 @@ $(document).ready( function() {
     
     // Input Button
     $(".col > button").click(function() {
+        let guessLetter = $(this).text();
         
-        if (isGuessLetterCorrect($(this).text())) {
+        if (isGuessLetterCorrect(guessLetter)) {
             $(this).addClass("guessed-letter");
-            displayGuessedLetter($(this).text());
+            displayGuessedLetter(guessLetter);
+            if(isGameWon()) {
+                console.log("Game Won");
+            } else {
+                console.log("keep playing");
+            }
+        } else if (guesses === 1){
+            endGame();
         } else {
+            guesses--; 
             $(this).addClass("guessed-letter")
         }
     });
