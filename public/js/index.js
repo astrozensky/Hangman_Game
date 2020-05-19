@@ -104,7 +104,8 @@ const wordList = [
 let category = "",
     guessingWord = "",
     hint = "",
-    guesses = 10;
+    guesses = 10,
+    removedCategoryButtons = [];
 
 const randomWordSelector = (categoryName) => {
     wordList.forEach( (el) => {
@@ -119,6 +120,28 @@ const randomWordSelector = (categoryName) => {
 
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
+}
+
+function focusSelectedCategory() {
+    let categoryButtons = $(".categories > div");
+
+    categoryButtons.each(function(){
+        if(this.children[0].textContent != category){
+            removedCategoryButtons.push($(this).detach()) 
+        } else {
+            removedCategoryButtons.push($(this));
+        }
+    });
+    $(".category-header > div > h6").text("Category:");
+}
+
+function resetCategorySelector() {
+    $(".category-header > div > h6").text("Pick a Category:");
+
+    removedCategoryButtons.forEach(function(el){
+        $(".categories").append(el);
+    });
+    
 }
 
 const displayEmptyUnderscore = () => {
@@ -185,6 +208,7 @@ function resetGame() {
     $(".input-area").css("display", "none");
     $(".underscore-display").empty();
     $(".hint-display").remove();
+    resetCategorySelector();
 
     inputButtons.each( function() {
         $(this).removeClass("guessed-letter");
@@ -237,6 +261,7 @@ $(document).ready( function() {
     $(".categories > div > button").click(function() {
         category = $(this).text();
         guessingWord = randomWordSelector(category);
+        focusSelectedCategory();
         displayEmptyUnderscore();
         displayInputArea();
         console.log(guessingWord);
