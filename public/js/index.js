@@ -135,6 +135,10 @@ const displayEmptyUnderscore = () => {
         }
 }
 
+const displayInputArea = () => {
+    $(".input-area").css("display", "block");
+}
+
 function insertEmptyUnderscore(str, line){
     $(".underscore-display").append("<div id=" + line + " class='row justify-content-center text-center'></div>")
     for (let i = 0; i < str.length; i++){
@@ -178,9 +182,10 @@ function resetGame() {
     hint = "",
     guesses = 10;
 
+    $(".input-area").css("display", "none");
     $(".underscore-display").empty();
     $(".hint-display").remove();
-    
+
     inputButtons.each( function() {
         $(this).removeClass("guessed-letter");
     });
@@ -233,12 +238,15 @@ $(document).ready( function() {
         category = $(this).text();
         guessingWord = randomWordSelector(category);
         displayEmptyUnderscore();
+        displayInputArea();
         console.log(guessingWord);
     });
 
     // Hint Button
     $("#hint").click(function(){
-        $(".input-area").before("<div class='row justify-content-center text-center hint-display'><div class='col'>Hint: " + hint + "</div>");
+        if($(".hint-display").length === 0){
+            $(".input-area").before("<div class='row justify-content-center text-center hint-display'><div class='col'>Hint: " + hint + "</div>");
+        }
     });
 
     // Play Again Button

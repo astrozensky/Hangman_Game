@@ -5,6 +5,7 @@ body {
 .input-area {
     width: 70%;
     margin: auto;
+    display: none;
 }
 
 .underscore {
