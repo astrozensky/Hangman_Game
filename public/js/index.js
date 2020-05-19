@@ -159,7 +159,7 @@ const displayEmptyUnderscore = () => {
 }
 
 const displayInputArea = () => {
-    $(".input-area").css("display", "block");
+    $(".input-area").show(400, "swing");
 }
 
 function insertEmptyUnderscore(str, line){
@@ -205,7 +205,7 @@ function resetGame() {
     hint = "",
     guesses = 10;
 
-    $(".input-area").css("display", "none");
+    $(".input-area").hide();
     $(".underscore-display").empty();
     $(".hint-display").remove();
     resetCategorySelector();
