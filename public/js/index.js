@@ -219,5 +219,10 @@ $(document).ready( function() {
         displayEmptyUnderscore();
         console.log(guessingWord);
     });
+
+    // Hint Button
+    $("#hint").click(function(){
+        $(".input-area").before("<div class='row justify-content-center text-center'><div class='col'>Hint: " + hint + "</div>");
+    });
 });
 
