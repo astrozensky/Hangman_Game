@@ -57,7 +57,7 @@ body {
     background-color: #A3CDFF;
 }
 
-#game-over {
+.game-over {
     display: none;
     position: fixed;
     top: 0;
@@ -67,12 +67,12 @@ body {
     background: rgba(0,0,0,0.9);
 }
 
-#game-over > .container {
+.game-over > .container {
     position: relative;
     top: 25%;
 }
 
-#game-over > div > div > div > h2 {
+.game-over > div > div > div > h2 {
     color: #4F7CB3;
     font-size: 3em;
 }

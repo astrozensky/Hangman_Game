@@ -235,20 +235,26 @@ function displayGuessedLetter(letter) {
 }
 
 function gameOver() {
+    showGameOverInfo("Game Over");
+}
+
+function gameWon() {
+    showGameOverInfo("You Won!");    
+}
+
+function showGameOverInfo(str) {
     const resetButton = $(".input-area > div > #play-again").clone();
 
-    $("#game-over").fadeIn("fast");
-    $("#game-over > div > .correct-word").append("<div class='col'>The word was: " + guessingWord + "</div");
-    $("#game-over > div >.play-again").append(resetButton);
+    $(".game-over").fadeIn("fast");
+    $(".game-over > div > div > div > h2").text(str);
+    if(str === "Game Over"){
+        $(".game-over > div > .correct-word").append("<div class='col'>The word was: " + guessingWord + "</div");
+    }
+    $(".game-over > div > .play-again").append(resetButton);
 
     $(".reset").click(function(){
         resetGame();
     });
-
-}
-
-function gameWon() {
-    alert("Game Won");
 }
 
 function resetGame() {
