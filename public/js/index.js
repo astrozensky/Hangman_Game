@@ -188,8 +188,17 @@ function displayGuessedLetter(letter) {
     });
 }
 
-function endGame() {
-    alert("Game Over");
+function gameOver() {
+    const resetButton = $(".input-area > div > #play-again").clone();
+
+    $("#game-over").fadeIn("fast");
+    $("#game-over > div > .correct-word").append("<div class='col'>The word was: " + guessingWord + "</div");
+    $("#game-over > div >.play-again").append(resetButton);
+
+    $(".reset").click(function(){
+        resetGame();
+    });
+
 }
 
 function gameWon() {
@@ -198,11 +207,14 @@ function gameWon() {
 
 function resetGame() {
     let inputButtons = $(".input-area > div > div > button");
-
+    // Reset Global Variables
     category = "",
     guessingWord = "",
     hint = "",
     guesses = 10;
+
+    // Clear Canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     $(".input-area").hide();
     $(".underscore-display").empty();
@@ -212,6 +224,10 @@ function resetGame() {
     inputButtons.each( function() {
         $(this).removeClass("guessed-letter");
     });
+
+    $("#game-over").fadeOut("fast");
+    $("#game-over > div > .correct-word").empty();
+    $("#game-over > div >.play-again").empty();
 }
 
 const isGameWon = () => {
@@ -352,7 +368,7 @@ $(document).ready( function() {
         } else if (guesses === 1){
             guesses--;
             drawHangman();
-            endGame();
+            gameOver();
         } else {
             guesses--; 
             drawHangman();
@@ -362,12 +378,15 @@ $(document).ready( function() {
 
     // Categories Button
     $(".categories > div > button").click(function() {
-        category = $(this).text();
-        guessingWord = randomWordSelector(category);
-        focusSelectedCategory();
-        displayEmptyUnderscore();
-        displayInputArea();
-        console.log(guessingWord);
+        if(category === ""){
+            category = $(this).text();
+            guessingWord = randomWordSelector(category);
+            focusSelectedCategory();
+            displayEmptyUnderscore();
+            displayInputArea();
+            console.log(guessingWord);
+        }
+        
     });
 
     // Hint Button
@@ -378,7 +397,7 @@ $(document).ready( function() {
     });
 
     // Play Again Button
-    $("#play-again").click(function(){
+    $(".reset").on("click", function(){
         resetGame();
     });
 });
