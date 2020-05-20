@@ -4,19 +4,23 @@ const wordList = [
         words: [
             {
                 name: "Robert De Niro",
-                hint: "Robert"
+                hint: "Robert",
+                chosen: false
             },
             {
                 name: "Denzel Washington",
-                hint: "Denzel"
+                hint: "Denzel",
+                chosen: false
             },
             {
                 name: "Betty White",
-                hint: "Betty"
+                hint: "Betty",
+                chosen: false
             },
             {
                 name: "Scarlett Johansson",
-                hint: "Scarlett"
+                hint: "Scarlett",
+                chosen: false
             },
         ]
     },
@@ -25,23 +29,28 @@ const wordList = [
         words: [
             {
                 name: "The Godfather",
-                hint: "Godfather"
+                hint: "Godfather",
+                chosen: false
             },
             {
                 name: "Citizen Kane",
-                hint: "Cit Kane"
+                hint: "Cit Kane",
+                chosen: false
             },
             {
                 name: "The Wizard of Oz",
-                hint: "Not in Kansas anymore"
+                hint: "Not in Kansas anymore",
+                chosen: false
             },
             {
                 name: "The Silence of the Lambs",
-                hint: "Be quite lambs"
+                hint: "Be quite lambs",
+                chosen: false
             },
             {
                 name: "Gladiator",
-                hint: "Gladiator"
+                hint: "Gladiator",
+                chosen: false
             }
         ]
     },
@@ -50,27 +59,33 @@ const wordList = [
         words: [
             { 
                 name: "Red Panda",
-                hint: "Cute fluffy mammal"
+                hint: "Cute fluffy mammal",
+                chosen: false
             },
             {
                 name: "Axolotl",
-                hint: "aka Mexican walking fish"
+                hint: "aka Mexican walking fish",
+                chosen: false
             },
             {
                 name: "Brown Bear",
-                hint: "Bear"
+                hint: "Bear",
+                chosen: false
             },
             {
                 name: "Panther",
-                hint: "Black Cat"
+                hint: "Black Cat",
+                chosen: false
             },
             {
                 name: "Baboon",
-                hint: "Has a red butt"
+                hint: "Has a red butt",
+                chosen: false
             },
             {
                 name: "Condor",
-                hint: "Largest bird"
+                hint: "Largest bird",
+                chosen: false
             }
         ]
     },
@@ -79,23 +94,28 @@ const wordList = [
         words: [
             {
                 name: "Seattle Seahawks",
-                hint: "seattle seahawks"
+                hint: "seattle seahawks",
+                chosen: false
             },
             {
                 name: "Chicago Bears",
-                hint: "Chicago bears"
+                hint: "Chicago bears",
+                chosen: false
             },
             {
                 name: "Kansas City Chiefs",
-                hint: "Chiefs"
+                hint: "Chiefs",
+                chosen: false
             },
             {
                 name: "Buffalo Bills",
-                hint: "Buffalo Bills"
+                hint: "Buffalo Bills",
+                chosen: false
             },
             {
                 name: "Jacksonville Jaguars",
-                hint: "Jacksonville Jaguars"
+                hint: "Jacksonville Jaguars",
+                chosen: false
             }
         ]
     }
@@ -115,12 +135,28 @@ const canvas = document.getElementById("hangman-image"),
 const randomWordSelector = (categoryName) => {
     wordList.forEach( (el) => {
         if (el.title === categoryName) {
-            index = getRandomInt(el.words.length);
-            word = el.words[index].name;
-            hint = el.words[index].hint;
+            if (!isAllWordsChosen(el.words)) {
+                index = getRandomInt(el.words.length);
+                while (el.words[index].chosen){
+                    index = getRandomInt(el.words.length);
+                }
+                word = el.words[index].name;
+                hint = el.words[index].hint;
+                el.words[index].chosen = true;
+            } else {
+                word = undefined;
+            }
         }
     }); 
     return word;
+}
+
+const isAllWordsChosen = (arr) => {
+    const isChosenTrue = (el) => {
+        if(el.chosen === true) return true;
+        return false;
+    }
+    return arr.every(isChosenTrue);
 }
 
 const getRandomInt = (max) => {
@@ -136,6 +172,16 @@ function focusSelectedCategory() {
         } 
     });
     $(".category-header > div > h6").text("Category:");
+}
+
+function removeSelectedCategory() {
+    let categoryButtons = $(".categories > div");
+
+    categoryButtons.each(function(){
+        if(this.children[0].textContent === category){
+            $(this).remove();
+        } 
+    });
 }
 
 function resetCategorySelector() {
@@ -356,7 +402,7 @@ function drawArm(side) {
 $(document).ready( function() {
     // Add event listeners here
     // Input Button
-    $(".col > button").click(function() {
+    $(".letter-input > .col > button").click(function() {
         let guessLetter = $(this).text();
         
         if (isGuessLetterCorrect(guessLetter)) {
@@ -381,10 +427,18 @@ $(document).ready( function() {
         if(category === ""){
             category = $(this).text();
             guessingWord = randomWordSelector(category);
-            focusSelectedCategory();
-            displayEmptyUnderscore();
-            displayInputArea();
-            console.log(guessingWord);
+            if(guessingWord === undefined){
+                removeSelectedCategory();
+                category = "",
+                guessingWord = "";
+                alert("Please pick a different category");
+            } else {
+                focusSelectedCategory();
+                displayEmptyUnderscore();
+                displayInputArea();
+                console.log(guessingWord);
+            }
+            
         }
         
     });
