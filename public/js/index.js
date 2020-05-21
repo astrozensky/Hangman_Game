@@ -277,6 +277,7 @@ function resetGame() {
         $(this).removeClass("guessed-letter");
     });
 
+    $(".guess-word-input").fadeOut("fast");
     $("#game-over").fadeOut("fast");
     $("#game-over > div > .correct-word").empty();
     $("#game-over > div >.play-again").empty();
@@ -460,5 +461,24 @@ $(document).ready( function() {
     $(".reset").on("click", function(){
         resetGame();
     });
+
+    // Guess Word Button
+    $("#guess-word").click(function(){
+        $(".guess-word-input").fadeIn("fast");
+    });
+
+    // Guess Word Submit Button
+    $( "form" ).on( "submit", function( event ) {
+        event.preventDefault();
+        let inputVal = $( this ).serialize(),
+            encodedWord = encodeURI("guess=" + guessingWord);
+
+        if (inputVal.toLowerCase() === encodedWord.toLowerCase()){
+            gameWon();
+        } else {
+            gameOver();
+        }
+        $("#guess-input").val("");
+      });
 });
 
