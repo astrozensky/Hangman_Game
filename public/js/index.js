@@ -4,22 +4,22 @@ const wordList = [
         words: [
             {
                 name: "Robert De Niro",
-                hint: "Robert",
+                hint: "Last name is spanish for money",
                 chosen: false
             },
             {
                 name: "Denzel Washington",
-                hint: "Denzel",
+                hint: "Won best actor for role in Training Day",
                 chosen: false
             },
             {
                 name: "Betty White",
-                hint: "Betty",
+                hint: "Golden Girls",
                 chosen: false
             },
             {
                 name: "Scarlett Johansson",
-                hint: "Scarlett",
+                hint: "Black Widow",
                 chosen: false
             },
         ]
@@ -29,12 +29,12 @@ const wordList = [
         words: [
             {
                 name: "The Godfather",
-                hint: "Godfather",
+                hint: "This mob drama is regarded as one of the greatest films of all time",
                 chosen: false
             },
             {
                 name: "Citizen Kane",
-                hint: "Cit Kane",
+                hint: "1941 film by Orson Welles",
                 chosen: false
             },
             {
@@ -44,12 +44,12 @@ const wordList = [
             },
             {
                 name: "The Silence of the Lambs",
-                hint: "Be quite lambs",
+                hint: "American psychological horror film directed by Jonathan Demme",
                 chosen: false
             },
             {
                 name: "Gladiator",
-                hint: "Gladiator",
+                hint: "2000 epic historical drama film directed by Ridley Scott",
                 chosen: false
             }
         ]
@@ -69,22 +69,22 @@ const wordList = [
             },
             {
                 name: "Brown Bear",
-                hint: "Bear",
+                hint: "Four legs with a big shoulder hump",
                 chosen: false
             },
             {
                 name: "Panther",
-                hint: "Black Cat",
+                hint: "Big black cat",
                 chosen: false
             },
             {
                 name: "Baboon",
-                hint: "Has a red butt",
+                hint: "Rafiki",
                 chosen: false
             },
             {
                 name: "Condor",
-                hint: "Largest bird",
+                hint: "Largest flying land birds in the Western hemisphere",
                 chosen: false
             }
         ]
@@ -94,27 +94,27 @@ const wordList = [
         words: [
             {
                 name: "Seattle Seahawks",
-                hint: "seattle seahawks",
+                hint: "Blue and green",
                 chosen: false
             },
             {
                 name: "Chicago Bears",
-                hint: "Chicago bears",
+                hint: "Cubs: football team",
                 chosen: false
             },
             {
                 name: "Kansas City Chiefs",
-                hint: "Chiefs",
+                hint: "Arrowhead logo",
                 chosen: false
             },
             {
                 name: "Buffalo Bills",
-                hint: "Buffalo Bills",
+                hint: "Based near Niagra Falls",
                 chosen: false
             },
             {
                 name: "Jacksonville Jaguars",
-                hint: "Jacksonville Jaguars",
+                hint: "Big cat mascot",
                 chosen: false
             }
         ]
